@@ -1,4 +1,4 @@
-package validation;
+package com.employees.management.ksquare.timesheet.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

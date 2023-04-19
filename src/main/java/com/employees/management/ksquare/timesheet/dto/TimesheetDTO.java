@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -18,5 +19,5 @@ public class TimesheetDTO  {
     private LocalDate endDate;
     private double weekHours;
     private EmployeeDTO requester;
-    private List<TimesheetProjectDTO> projects;
+    private Set<TimesheetProjectDTO> projects;
 }

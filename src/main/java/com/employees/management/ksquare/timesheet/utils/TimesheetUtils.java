@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -30,7 +31,7 @@ public class TimesheetUtils {
                 .endDate(entity.getEndDate())
                 .weekHours(entity.getWeekHours())
                 .requester(convertEmployeeEntityToDTO(entity.getRequester()))
-                .projects(entity.getProjects().stream().map(this::convertTimesheetProjectEntityToDTO).collect(Collectors.toList()))
+                .projects(entity.getProjects().stream().map(this::convertTimesheetProjectEntityToDTO).collect(Collectors.toSet()))
                 .build();
     }
 
@@ -85,8 +86,8 @@ public class TimesheetUtils {
 
     public Timesheet convertTimesheetRequestDTOToEntity(TimesheetRequestDTO dto) {
         Employee requester = employeeService.findEmployeeByUUID(dto.getRequesterId());
-        List<TimesheetProject> timesheetProjects = dto.getProjects().stream()
-                .map(this::convertTimesheetProjectRequestDTOToTimesheetProject).toList();
+        Set<TimesheetProject> timesheetProjects = dto.getProjects().stream()
+                .map(this::convertTimesheetProjectRequestDTOToTimesheetProject).collect(Collectors.toSet());
         log.info("Timesheet Projects: {}", timesheetProjects);
 
         return Timesheet.builder()
@@ -113,7 +114,7 @@ public class TimesheetUtils {
                 .build();
     }
 
-    public ProjectHours convertWeekHoursRequestDTOToProjectHours(WeekHoursRequestDTO dto) {
+    public static ProjectHours convertWeekHoursRequestDTOToProjectHours(WeekHoursRequestDTO dto) {
         return ProjectHours.builder()
                 .mondayHours(dto.getMonday())
                 .tuesdayHours(dto.getTuesday())
@@ -125,7 +126,7 @@ public class TimesheetUtils {
                 .build();
     }
 
-    public ProjectExtraHours convertWeekHoursRequestDTOToProjectExtraHours(WeekHoursRequestDTO dto) {
+    public static ProjectExtraHours convertWeekHoursRequestDTOToProjectExtraHours(WeekHoursRequestDTO dto) {
         return ProjectExtraHours.builder()
                 .mondayHours(dto.getMonday())
                 .tuesdayHours(dto.getTuesday())

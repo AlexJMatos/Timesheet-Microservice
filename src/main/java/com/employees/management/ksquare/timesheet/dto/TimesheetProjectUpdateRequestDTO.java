@@ -3,7 +3,6 @@ package com.employees.management.ksquare.timesheet.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -11,9 +10,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class TimesheetProjectRequestDTO {
-    @NotNull(message = "The project id cannot empty")
-    private UUID projectId;
+public class TimesheetProjectUpdateRequestDTO {
+    @NotNull(message = "Timesheet project id cannot empty")
+    private UUID timesheetProjectId;
     @NotNull(message = "Enter true or false if the timesheet project is draft")
     private boolean isDraft;
     private String comment;

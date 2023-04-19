@@ -1,16 +1,15 @@
 package com.employees.management.ksquare.timesheet.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import validation.DaysBetween;
-import validation.WeekDay;
+import com.employees.management.ksquare.timesheet.validation.DaysBetween;
+import com.employees.management.ksquare.timesheet.validation.WeekDay;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -34,5 +33,5 @@ public class TimesheetRequestDTO {
     private LocalDate endDate;
 
     @NotEmpty(message = "Projects cannot be empty")
-    private List<TimesheetProjectRequestDTO> projects;
+    private Set<TimesheetProjectRequestDTO> projects;
 }

@@ -3,21 +3,31 @@ DECLARE
 	emp1 uuid := gen_random_uuid();
 	emp2 uuid := gen_random_uuid();
 	emp3 uuid := gen_random_uuid();
-	emp4 uuid := gen_random_uuid();
+--	emp4 uuid := gen_random_uuid();
+    emp4 uuid := '45e67bd8-a901-4f37-8b34-1453ff807b21';
 	emp5 uuid := gen_random_uuid();
 	emp6 uuid := gen_random_uuid();
 	emp7 uuid := gen_random_uuid();
 	prj1 uuid := gen_random_uuid();
-	prj2 uuid := gen_random_uuid();
+--	prj2 uuid := gen_random_uuid();
+	prj2 uuid := '0322b935-3d93-4156-a8d4-2fc01f5ae0a4';
 	prj3 uuid := gen_random_uuid();
-	tms1 uuid := gen_random_uuid();
+--	tms1 uuid := gen_random_uuid();
+    tms1 uuid := 'c7b12ede-e43d-44e5-98f4-88e752605e7d';
 	tms2 uuid := gen_random_uuid();
 	tms3 uuid := gen_random_uuid();
-	tms4 uuid := gen_random_uuid();
-	tms_prj1 uuid := gen_random_uuid();
+--	tms4 uuid := gen_random_uuid();
+    tms4 uuid := 'fe6ce6df-fcad-4f34-bf9d-349a2e5c74cb';
+--	tms_prj1 uuid := gen_random_uuid();
+	tms_prj1 uuid := '6a3309c2-8fd5-4575-bc7b-08f1929b1b90';
 	tms_prj2 uuid := gen_random_uuid();
+	tms_prj3 uuid := gen_random_uuid();
+--	tms_prj4 uuid := gen_random_uuid();
+    tms_prj4 uuid := '1277aaef-45b3-4db9-beba-913bd011ea4a';
 	prj_hours1 int := (SELECT NEXTVAL('project_hours_sequence'));
 	prj_hours2 int := (SELECT NEXTVAL('project_hours_sequence'));
+	prj_hours3 int := (SELECT NEXTVAL('project_hours_sequence'));
+	prj_hours4 int := (SELECT NEXTVAL('project_hours_sequence'));
 BEGIN
     -- EMPLOYEES
     INSERT INTO employees(id, first_name, last_name, date_of_birth, job_email, phone, gender, hiring_date, employee_position, country, photo_url, active)
@@ -89,10 +99,16 @@ BEGIN
 
     -- TIMESHEET PROJECTS
     INSERT INTO timesheet_projects(id, timesheet_id, project_id, approves_id, timesheet_project_status, project_hours, requester_comment)
-    VALUES (tms_prj1, tms1, prj1, emp6, 0, 40, 'This week I worked on new krista extension outlook v2');
+    VALUES (tms_prj1, tms1, prj1, emp6, 'Pending', 40, 'This week I worked on new krista extension outlook v2');
 
     INSERT INTO timesheet_projects(id, timesheet_id, project_id, approves_id, timesheet_project_status, project_hours, requester_comment)
-    VALUES (tms_prj2, tms2, prj1, emp6, 3, 40, 'This week I worked on new krista extension blue prism');
+    VALUES (tms_prj2, tms2, prj1, emp6, 'Pending', 40, 'This week I worked on new krista extension blue prism');
+
+    INSERT INTO timesheet_projects(id, timesheet_id, project_id, approves_id, timesheet_project_status, project_hours, requester_comment)
+    VALUES (tms_prj3, tms3, prj3, emp5, 'Pending', 40, 'This week I worked on new functionality using apache camel');
+
+    INSERT INTO timesheet_projects(id, timesheet_id, project_id, approves_id, timesheet_project_status, project_hours, requester_comment)
+    VALUES (tms_prj4, tms4, prj3, emp5, 'Draft', 40, 'This week I worked on new routes and partitions using kafka');
 
     -- PROJECT HOURS
     INSERT INTO project_hours(id, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
@@ -101,6 +117,14 @@ BEGIN
     INSERT INTO project_hours(id, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
     VALUES (prj_hours2, 8, 8, 8, 8, 8, 0, 0);
 
+    INSERT INTO project_hours(id, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+    VALUES (prj_hours3, 8, 8, 8, 8, 8, 0, 0);
+
+    INSERT INTO project_hours(id, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+    VALUES (prj_hours4, 8, 8, 8, 8, 8, 0, 0);
+
     INSERT INTO timesheet_project_hours(timesheet_project_id, project_hours_id) VALUES (tms_prj1, prj_hours1);
     INSERT INTO timesheet_project_hours(timesheet_project_id, project_hours_id) VALUES (tms_prj2, prj_hours2);
+    INSERT INTO timesheet_project_hours(timesheet_project_id, project_hours_id) VALUES (tms_prj3, prj_hours3);
+    INSERT INTO timesheet_project_hours(timesheet_project_id, project_hours_id) VALUES (tms_prj4, prj_hours4);
 END $$;

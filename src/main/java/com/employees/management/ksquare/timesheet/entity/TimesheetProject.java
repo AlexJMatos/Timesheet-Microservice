@@ -2,6 +2,7 @@ package com.employees.management.ksquare.timesheet.entity;
 
 import com.employees.management.ksquare.timesheet.entity.enumerators.TimesheetProjectStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -23,18 +24,13 @@ public class TimesheetProject {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "timesheet_id", referencedColumnName = "id")
-//    @ToString.Exclude
-//    @JsonIgnore
-//    private Timesheet timesheet;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     @ToString.Exclude
     private Project project;
 
     @Column(name = "timesheet_project_status")
+    @Enumerated(EnumType.STRING)
     private TimesheetProjectStatus status;
 
     @Column(name = "project_hours")
@@ -42,6 +38,10 @@ public class TimesheetProject {
 
     @Column(name = "requester_comment")
     private String comment;
+
+    @Column(name = "attachment_url")
+    @Nullable
+    private String attachmentUrl;
 
     @ManyToOne
     @JoinColumn(name = "approves_id", referencedColumnName = "id")
