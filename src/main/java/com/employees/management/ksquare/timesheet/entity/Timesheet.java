@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "timesheets")
@@ -57,17 +58,32 @@ public class Timesheet {
                 });
     }
 
-    public void updateTimesheetProjectDraft(TimesheetProjectUpdateRequestDTO updateRequest){
+    public void updateTimesheetProjectDraft(TimesheetProjectUpdateRequestDTO updateRequest) {
         Optional<TimesheetProject> optionalTimesheetProject = this.projects.stream().filter(timesheetProject -> timesheetProject.getId().equals(updateRequest.getTimesheetProjectId())).findAny();
         optionalTimesheetProject.ifPresentOrElse(timesheetProject -> {
-            if (timesheetProject.getStatus().equals(TimesheetProjectStatus.Draft)){
+            if (timesheetProject.getStatus().equals(TimesheetProjectStatus.Draft)) {
                 // Update the timesheet project
                 timesheetProject.setStatus(updateRequest.isDraft() ? TimesheetProjectStatus.Draft : TimesheetProjectStatus.Pending);
                 timesheetProject.setComment(updateRequest.getComment());
                 timesheetProject.setHours(TimesheetUtils.convertWeekHoursRequestDTOToProjectHours(updateRequest.getWeekHours()));
                 timesheetProject.setExtraHours(TimesheetUtils.convertWeekHoursRequestDTOToProjectExtraHours(updateRequest.getWeekExtraHours()));
                 timesheetProject.setAttachmentUrl(updateRequest.getAttachmentUrl());
-            } else throw new TimesheetRequestException("Timesheet Project with ID - " + timesheetProject.getId() + " is not in draft mode.");
-        }, () -> {throw new EntityNotFoundException("No timesheet project found for ID - " + updateRequest.getTimesheetProjectId());});
+            } else
+                throw new TimesheetRequestException("Timesheet Project with ID - " + timesheetProject.getId() + " is not in draft mode.");
+        }, () -> {
+            throw new EntityNotFoundException("No timesheet project found for ID - " + updateRequest.getTimesheetProjectId());
+        });
+    }
+
+    public void deleteTimesheetProject(UUID timesheetProjectId) {
+        Optional<TimesheetProject> optionalFound = this.projects.stream().filter(timesheetProject -> timesheetProject.getId().equals(timesheetProjectId)).findAny();
+        optionalFound.ifPresentOrElse(timesheetProject -> {
+            if (timesheetProject.getStatus().equals(TimesheetProjectStatus.Draft))
+                this.projects.remove(timesheetProject);
+            else
+                throw new TimesheetRequestException("Timesheet Project with ID - " + timesheetProject.getId() + " is not in draft mode.");
+        }, () -> {
+            throw new EntityNotFoundException("Timesheet project not found for ID - " + timesheetProjectId);
+        });
     }
 }

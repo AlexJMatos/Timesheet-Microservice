@@ -11,7 +11,6 @@ import com.employees.management.ksquare.timesheet.utils.TimesheetUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +46,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     public TimesheetDTO addTimesheet(TimesheetRequestDTO dto) {
         // Create timesheet entity based on dto
         Timesheet newTimesheet = utils.convertTimesheetRequestDTOToEntity(dto);
-        Timesheet saved = timesheetRepository.save(newTimesheet);
+        Timesheet saved = timesheetRepository.saveAndFlush(newTimesheet);
         return utils.convertTimesheetEntityToDTO(saved);
     }
 
@@ -67,7 +66,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         timesheetProjectStatusPatchRequestList.forEach(request -> timesheet.updateTimesheetProjectStatus(request.getTimesheetProjectId(), TimesheetProjectStatus.valueOf(request.getStatus())));
 
         // Save the timesheet
-        Timesheet update = timesheetRepository.save(timesheet);
+        Timesheet update = timesheetRepository.saveAndFlush(timesheet);
 
         return utils.convertTimesheetEntityToDTO(update);
     }
@@ -81,9 +80,16 @@ public class TimesheetServiceImpl implements TimesheetService {
         timesheetProjectRequestList.forEach(timesheet::updateTimesheetProjectDraft);
 
         // Save the timesheet
-        Timesheet update = timesheetRepository.save(timesheet);
+        Timesheet update = timesheetRepository.saveAndFlush(timesheet);
 
         return utils.convertTimesheetEntityToDTO(update);
+    }
+
+    @Override
+    public void deleteTimesheetProject(UUID timesheetId, UUID timesheetProjectId) {
+        Timesheet timesheet = retrieveTimesheet(timesheetId);
+        timesheet.deleteTimesheetProject(timesheetProjectId);
+        timesheetRepository.saveAndFlush(timesheet);
     }
 
     private Timesheet retrieveTimesheet(UUID uuid){

@@ -83,4 +83,13 @@ public class TimesheetController {
         TimesheetDTO updatedTimesheet = timesheetService.updateTimesheetProjects(uuid, projectRequestList);
         return ResponseEntity.ok(updatedTimesheet);
     }
+
+    @DeleteMapping(value = "/{timesheetId}/projects/{timesheetProjectId}")
+    public ResponseEntity<Object> deleteTimesheetProject(@PathVariable("timesheetId") UUID timesheetId,
+                                                       @PathVariable("timesheetProjectId") UUID timesheetProjectId) {
+        log.info("Timesheet ID: {}", timesheetId);
+        log.info("Timesheet Project ID: {}", timesheetProjectId);
+        timesheetService.deleteTimesheetProject(timesheetId, timesheetProjectId);
+        return ResponseEntity.noContent().build();
+    }
 }

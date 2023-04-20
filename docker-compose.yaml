@@ -1,24 +1,24 @@
 version: "3.8"
 services:
-#  timesheet-microservice:
-#    container_name: "timesheets-microservice"
-#    build:
-#      context: .
-#      dockerfile: ./Dockerfile
-#    image: timesheet-microservice:lastest
-#    depends_on:
-#      - postgres-db
-#    environment:
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/timesheet-microservice-db
-#      - SPRING_DATASOURCE_USERNAME=alexjmatos
-#      - SPRING_DATASOURCE_PASSWORD=alexjmatos6323
-#      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
-#      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
-#    ports:
-#      - "8080:8080"
-#    networks:
-#      - container-network
-#    restart: always
+  timesheet-microservice:
+    container_name: "timesheets-microservice"
+    build:
+      context: .
+      dockerfile: DockerFile
+    image: timesheet-microservice:lastest
+    depends_on:
+      - postgres-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/timesheet-microservice-db
+      - SPRING_DATASOURCE_USERNAME=alexjmatos
+      - SPRING_DATASOURCE_PASSWORD=alexjmatos6323
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+    ports:
+      - "8081:8081"
+    networks:
+      - container-network
+    restart: always
 
   postgres-db:
     container_name: "postgres-db"

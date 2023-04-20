@@ -15,4 +15,5 @@ public interface TimesheetService {
     Page<TimesheetDTO> getAllTimesheet(Pageable pageable);
     TimesheetDTO updateTimesheetProjectStatusById(UUID uuid, List<TimesheetProjectStatusPatchRequestDTO> timesheetProjectPatchBody);
     TimesheetDTO updateTimesheetProjects(UUID uuid, List<TimesheetProjectUpdateRequestDTO> updateTimesheetProjectRequestList);
+    void deleteTimesheetProject(UUID timesheetId, UUID timesheetProjectId);
 }

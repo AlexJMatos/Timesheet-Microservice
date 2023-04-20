@@ -20,4 +20,5 @@ public class TimesheetProjectDTO {
     private String comment;
     private EmployeeDTO approves;
     private ProjectHoursDTO hours;
+    private ProjectHoursDTO extraHours;
 }

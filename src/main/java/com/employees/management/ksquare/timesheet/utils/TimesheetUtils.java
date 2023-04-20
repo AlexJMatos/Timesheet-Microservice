@@ -56,6 +56,7 @@ public class TimesheetUtils {
                 .comment(entity.getComment())
                 .approves(convertEmployeeEntityToDTO(entity.getApproves()))
                 .hours(convertProjectHoursEntityToDTO(entity.getHours()))
+                .extraHours(convertProjectExtraHoursEntityToDTO(entity.getExtraHours()))
                 .build();
     }
 
@@ -73,6 +74,19 @@ public class TimesheetUtils {
     }
 
     public ProjectHoursDTO convertProjectHoursEntityToDTO(ProjectHours entity) {
+        return ProjectHoursDTO.builder()
+                .monday(entity.getMondayHours())
+                .tuesday(entity.getTuesdayHours())
+                .wednesday(entity.getWednesdayHours())
+                .thursday(entity.getThursdayHours())
+                .friday(entity.getFridayHours())
+                .saturday(entity.getSaturdayHours())
+                .sunday(entity.getSundayHours())
+                .build();
+    }
+
+    public ProjectHoursDTO convertProjectExtraHoursEntityToDTO(ProjectExtraHours entity) {
+        if (entity == null) return null;
         return ProjectHoursDTO.builder()
                 .monday(entity.getMondayHours())
                 .tuesday(entity.getTuesdayHours())
